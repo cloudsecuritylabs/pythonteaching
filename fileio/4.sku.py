@@ -13,44 +13,46 @@ with open('vmimagelist.json', 'r') as f:
     data = json.load(f)
     f.close()
 
-# extract urn from marketplace
-urn = []
+print(data)
+
+# extract sku from marketplace
+sku = []
 for item in data:
-    urn.append(item['urn'])
+    sku.append(item['sku'])
 
 # allowed OS from TDA as of August 4th, 2021
 # only technologies applicable to Azure is listed here
-allowed_os = [
+allowed_os_sku = [
     'windows-server-2016',
-    # 'windows-server-2019',
-    # 'Windows-10:20h2',
-    # 'ubuntu-20',
-    # 'ubuntu-18',
-    # 'suse15',
-    # 'suse12',
-    # 'rhel7',
-    # 'rhel8',
-    # 'oracle-linux-7',
-    # 'oracle-linux-8',
-    # 'centos-7',
+    'windows-server-2019',
+    'Windows-10:20h2',
+    'ubuntu-20',
+    'ubuntu-18',
+    'suse15',
+    'suse12',
+    'rhel7',
+    'rhel8',
+    'oracle-linux-7',
+    'oracle-linux-8',
+    'centos-7',
 ]
 
 '''
-function to extract urns for allowed os types
+function to extract skus for allowed os types
 '''
-def get_urn(os_type, urnlist):
+def get_sku(os_type, skulist):
     list = []
-    for urn in urnlist:
-        if re.search(os_type, urn):
-            list.append(urn)
+    for sku in skulist:
+        if re.search(os_type, sku):
+            list.append(sku)
     return list
 
 allowd_urns = [] # store allowed urns
 
-for os in allowed_os:
-    allowd_urns.extend(get_urn(os, urn))
+for os in allowed_os_sku:
+    allowd_urns.extend(get_sku(os, sku))
 
-with open('urnlist.txt', 'w') as f:
+with open('skulist.txt', 'w') as f:
     for urn in allowd_urns:
         f.write(f'{urn}\n')
     f.close()
